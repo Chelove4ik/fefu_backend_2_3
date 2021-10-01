@@ -26,33 +26,30 @@ services:
     postgresql:
         image: postgres:latest
         ports:
-            - "5432:5432"
+            - '${DB_PORT:-5432}:5432'
         environment:
-            POSTGRES_USER: '${POSTGRES_USER}'
-            POSTGRES_PASSWORD: '${POSTGRES_PASSWORD}'
-            PGDATA: /data/postgres
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD}'
+            POSTGRES_DB: '${DB_DATABASE}'
         volumes:
             - postgres:/data/postgres
         networks:
-            - postgres
+            - sail
         restart: unless-stopped
     pgAdmin:
         image: dpage/pgadmin4:latest
         environment:
             PGADMIN_DEFAULT_EMAIL: '${PGADMIN_DEFAULT_EMAIL}'
             PGADMIN_DEFAULT_PASSWORD: '${PGADMIN_DEFAULT_PASSWORD}'
-            PGADMIN_CONFIG_SERVER_MODE: 'False'
         volumes:
             - pgadmin:/var/lib/pgadmin
         ports:
-            - "${PGADMIN_PORT}:80"
+            - "${PGADMIN_PORT:-5050}:80"
         networks:
-            - postgres
+            - sail
         restart: unless-stopped
 networks:
     sail:
-        driver: bridge
-    postgres:
         driver: bridge
 volumes:
     postgres:
