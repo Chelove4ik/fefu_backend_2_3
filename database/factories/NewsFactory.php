@@ -26,8 +26,6 @@ class NewsFactory extends Factory
             'text' => $this->faker->text,
             'is_published' => $this->faker->boolean(70),
             'published_at' => $this->faker->dateTimeInInterval('-2 months', 'now'),
-            'created_at' => $this->faker->dateTimeInInterval('-2 months', 'now'),
-            'updated_at' => $this->faker->dateTimeInInterval('-2 months', 'now'),
         ];
     }
 }
