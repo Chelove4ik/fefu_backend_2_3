@@ -17,7 +17,7 @@ class NewsSeeder extends Seeder
     {
         News::query()->delete();
         News::factory()
-            ->count(random_int(15, 25))
+            ->count(random_int(20, 30))
             ->create();
     }
 }
