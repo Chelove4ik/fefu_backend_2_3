@@ -22,8 +22,8 @@ class NewsFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->unique->text,
-            'text' => $this->faker->text,
+            'title' => $this->faker->unique->realTextBetween(5, 30),
+            'text' => $this->faker->realTextBetween(250, 500),
             'is_published' => $this->faker->boolean(70),
             'published_at' => $this->faker->dateTimeBetween('-2 months', '+2 weeks'),
         ];
