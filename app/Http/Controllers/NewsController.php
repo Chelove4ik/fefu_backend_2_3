@@ -10,7 +10,7 @@ class NewsController extends Controller
     public function getList()
     {
         $news = News::query()
-            ->where('is_published', '=', true)
+            ->where('is_published', true)
             ->where('published_at', '<=', 'now')
             ->orderByDesc('published_at')
             ->orderByDesc('id')
@@ -22,9 +22,9 @@ class NewsController extends Controller
     public function getDetails(string $slug)
     {
         $news_item = News::query()
-            ->where('slug', '=', $slug)
-            ->where('is_published', '=', true)
-            ->where('published_at', '<=', 'now')
+            ->where('slug', $slug)
+            ->where('is_published', true)
+            ->where('published_at', '<=', NOW())
             ->first();
 
         if (null === $news_item) {

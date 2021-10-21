@@ -25,7 +25,7 @@
         @foreach($news_list as $news_item)
             <a href="{{ route('news_item', ['slug' => $news_item->slug]) }}">{{ $news_item->title }}</a>
             <p>{{ $news_item->published_at }}</p>
-            @if (null !== $news_item->description)
+            @if ($news_item->description !== null)
                 <p>{{ $news_item->description }}</p>
             @endif
         @endforeach
