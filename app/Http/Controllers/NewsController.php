@@ -11,7 +11,7 @@ class NewsController extends Controller
     {
         $news = News::query()
             ->where('is_published', true)
-            ->where('published_at', '<=', 'now')
+            ->where('published_at', '<=', 'NOW()')
             ->orderByDesc('published_at')
             ->orderByDesc('id')
             ->paginate(5);
@@ -24,7 +24,7 @@ class NewsController extends Controller
         $news_item = News::query()
             ->where('slug', $slug)
             ->where('is_published', true)
-            ->where('published_at', '<=', NOW())
+            ->where('published_at', '<=', 'NOW()')
             ->first();
 
         if (null === $news_item) {
