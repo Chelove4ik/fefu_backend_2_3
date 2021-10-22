@@ -22,20 +22,24 @@ services:
         networks:
             - sail
         depends_on:
-            - postgresql
-    postgresql:
-        image: postgres:latest
+            - pgsql
+    pgsql:
+        image: postgres:13
         ports:
             - '${DB_PORT:-5432}:5432'
         environment:
-            POSTGRES_USER: '${DB_USERNAME}'
-            POSTGRES_PASSWORD: '${DB_PASSWORD}'
+            PGPASSWORD: '${DB_PASSWORD:-secret}'
             POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
         volumes:
-            - postgres:/data/postgres
+            - 'sailpgsql:/var/lib/postgresql/data'
         networks:
             - sail
-        restart: unless-stopped
+        healthcheck:
+            test: [ "CMD", "pg_isready", "-q", "-d", "${DB_DATABASE}", "-U", "${DB_USERNAME}" ]
+            retries: 3
+            timeout: 5s
     pgAdmin:
         image: dpage/pgadmin4:latest
         environment:
@@ -52,7 +56,7 @@ networks:
     sail:
         driver: bridge
 volumes:
-    postgres:
+    sailpgsql:
         driver: local
     pgadmin:
         driver: local
