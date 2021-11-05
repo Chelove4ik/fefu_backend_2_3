@@ -26,10 +26,20 @@
     </style>
 </head>
 <body>
+    @php
+        use App\Enums\Gender;
+    @endphp
+
     <h2>Отправить обращение</h2>
 
-    @if($success)
-        <p class="success">Успешно отправлено</p>
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     <form method="post" action="{{ route('appeal') }}">
@@ -38,37 +48,44 @@
         <div>
             <label>Name</label>
             <input type="text" class="bordered" name="name"
-                   value="{{ request()->isMethod('POST') ? old('name') : "" }}">
-            @if (isset($errors['name_len']))
-                <p>{{ $errors['name_len'] }}</p>
-            @endif
+                   value="{{ $errors->any() ? old('name') : "" }}">
+        </div>
+        <div>
+            <label>Surname</label>
+            <input type="text" class="bordered" name="surname"
+                   value="{{ $errors->any() ? old('surname') : "" }}">
+        </div>
+        <div>
+            <label>Patronymic</label>
+            <input type="text" class="bordered" name="patronymic"
+                   value="{{ $errors->any() ? old('patronymic') : "" }}">
         </div>
         <div>
             <label>Phone</label>
             <input type="tel" class="bordered" name="phone"
-                   value="{{ request()->isMethod('POST') ? old('phone') : "" }}">
-            @if (isset($errors['phone_len']))
-                <p>{{ $errors['phone_len'] }}</p>
-            @endif
+                   value="{{ $errors->any() ? old('phone') : "" }}">
         </div>
         <div>
             <label>Email</label>
             <input type="email" class="bordered" name="email"
-                   value="{{ request()->isMethod('POST') ? old('email') : "" }}">
-            @if (isset($errors['email_len']))
-                <p>{{ $errors['email_len'] }}</p>
-            @endif
-            @if (isset($errors['contact']))
-                <p>{{ $errors['contact'] }}</p>
-            @endif
+                   value="{{ $errors->any() ? old('email') : "" }}">
+        </div>
+        <div>
+            <label>Age</label>
+            <input type="text" class="bordered" name="age"
+                   value="{{ $errors->any() ? old('age') : "" }}">
+        </div>
+        <div>
+            <label>Gender</label>
+            <select name="gender" class="bordered">
+                <option value="{{ Gender::MALE }}" {{ old('gender') === Gender::MALE ? 'selected' : '' }}>Male</option>
+                <option value="{{ Gender::FEMALE }}" {{ old('gender') === Gender::FEMALE ? 'selected' : '' }}>Female</option>
+            </select>
         </div>
         <div>
             <label>Message</label>
             <textarea name="message" cols="30" rows="10"
-                      class="bordered">{{ request()->isMethod('POST') ? old('message') : "" }}</textarea>
-            @if (isset($errors['message_len']))
-                <p>{{ $errors['message_len'] }}</p>
-            @endif
+                      class="bordered">{{ $errors->any() ? old('message') : "" }}</textarea>
         </div>
 
         <input type="submit">
