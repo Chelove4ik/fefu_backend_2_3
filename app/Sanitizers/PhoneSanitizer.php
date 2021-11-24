@@ -4,15 +4,13 @@ namespace App\Sanitizers;
 
 class PhoneSanitizer
 {
-    public static function sanitize(string $value) : string {
+    public static function sanitize(?string $value): ?string
+    {
+        if ($value === null) {
+            return null;
+        }
         $res = preg_replace('/\D+/', '', $value);
-        if ($res[0] === '8') {
-            $res[0] = 7;
-        }
-        else {
-            $res = "7" . $res;
-        }
-        print $res;
+        $res[0] = 7;
         return $res;
     }
 }

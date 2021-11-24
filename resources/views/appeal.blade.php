@@ -62,12 +62,12 @@
         </div>
         <div>
             <label>Phone</label>
-            <input type="tel" class="bordered" name="phone"
+            <input type="text" class="bordered" name="phone"
                    value="{{ $errors->any() ? old('phone') : "" }}">
         </div>
         <div>
             <label>Email</label>
-            <input type="email" class="bordered" name="email"
+            <input type="text" class="bordered" name="email"
                    value="{{ $errors->any() ? old('email') : "" }}">
         </div>
         <div>
