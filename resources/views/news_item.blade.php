@@ -19,6 +19,7 @@
                 font-family: 'Nunito', sans-serif;
             }
         </style>
+        @includeWhen(session('need_show_suggest', false), 'suggest_appeal')
     </head>
     <body>
         <a href="{{ route('news_list') }}">Новости</a>

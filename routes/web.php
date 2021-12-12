@@ -3,6 +3,7 @@
 use App\Http\Controllers\AppealController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
+use App\Http\Middleware\SuggestAppeal;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,5 @@ Route::get('/news/{slug}', [NewsController::class, 'getDetails'])
     ->name('news_item');
 
 Route::match(['get', 'post'], '/appeal', AppealController::class)
-    ->name('appeal');
+    ->name('appeal')
+    ->withoutMiddleware(SuggestAppeal::class);
