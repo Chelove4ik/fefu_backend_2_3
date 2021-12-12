@@ -25,6 +25,8 @@ class AppealController extends Controller
             $appeal->message = $validated['message'];
             $appeal->save();
 
+            $request->session()->put('appeal_send', true);
+
             return redirect()->route('appeal');
         }
 
