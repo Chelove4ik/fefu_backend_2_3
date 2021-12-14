@@ -32,6 +32,14 @@
 
     <h2>Отправить обращение</h2>
 
+    @if (session()->pull('need_show_text', false))
+        <div>
+            <p>Нам очень важна ваша обратная связь</p>
+            <a href="{{ url()->previous() }}">Вернуться</a>
+        </div>
+        <br>
+    @endif
+
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
