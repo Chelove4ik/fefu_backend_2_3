@@ -22,6 +22,7 @@
         @includeWhen(session('need_show_suggest', false), 'suggest_appeal')
     </head>
     <body>
+        @include('authorization_header')
         <h1>Новости</h1>
         @foreach($news_list as $news_item)
             <a href="{{ route('news_item', ['slug' => $news_item->slug]) }}">{{ $news_item->title }}</a>
