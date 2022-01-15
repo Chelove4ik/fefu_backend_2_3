@@ -7,11 +7,19 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
     private const PAGE_SIZE = 5;
+
+    public function __construct() {
+        $this->middleware('auth:sanctum', ['only' => ['store', 'update', 'destroy']]);
+        $this->authorizeResource(Post::class, 'post', [
+            'except' => ['index', 'show']
+        ]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -46,7 +54,7 @@ class PostController extends Controller
         $post = new Post();
         $post->title = $validated['title'];
         $post->text = $validated['text'];
-        $post->user_id = User::inRandomOrder()->first()->id;
+        $post->user_id = Auth::user()->id;
         $post->save();
 
         return response()->json(new PostResource($post), 201);

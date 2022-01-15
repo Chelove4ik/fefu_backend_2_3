@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ApiAuthorizationController;
+use App\Http\Controllers\ApiNewsController;
 use App\Http\Controllers\ApiProfileController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
@@ -46,3 +47,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [ApiAuthorizationController::class, 'logout']);
     Route::get('/profile', ApiProfileController::class);
 });
+
+Route::apiResource('news', ApiNewsController::class)
+    ->scoped([
+        'news' => 'slug'
+    ])
+    ->missing(function () {
+        return response()->json(['message' => 'News not found'], 404);
+    });
