@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ApiAuthorizationController;
+use App\Http\Controllers\ApiProfileController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
@@ -37,3 +39,10 @@ Route::apiResource('posts.comments', CommentController::class)
         return response()->json(['message' => 'Comment not found'], 404);
     });
 
+Route::post('/registration', [ApiAuthorizationController::class, 'registration']);
+Route::post('/login', [ApiAuthorizationController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [ApiAuthorizationController::class, 'logout']);
+    Route::get('/profile', ApiProfileController::class);
+});

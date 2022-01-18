@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Appeal</title>
+    <title>Вход</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -22,25 +22,14 @@
         .bordered {
             border: 1px solid black;
         }
-
     </style>
 </head>
-<body>
-    @include('authorization_header')
-    @php
-        use App\Enums\Gender;
-    @endphp
-
-    <h2>Отправить обращение</h2>
-
-    @if (session()->pull('need_show_text', false))
-        <div>
-            <p>Нам очень важна ваша обратная связь</p>
-            <a href="{{ url()->previous() }}">Вернуться</a>
+<body class="antialiased">
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
         </div>
-        <br>
     @endif
-
     @if ($errors->any())
         <div class="alert alert-danger">
             <ul>
@@ -51,52 +40,17 @@
         </div>
     @endif
 
-    <form method="post" action="{{ route('appeal') }}">
+    <h2>Вход</h2>
+    <form method="post" action="{{ route('login') }}">
         @csrf
-
         <div>
-            <label>Name</label>
-            <input type="text" class="bordered" name="name"
-                   value="{{ $errors->any() ? old('name') : "" }}">
+            <label>Login</label>
+            <input type="text" class="bordered" name="login" value="{{ old('login') }}">
         </div>
         <div>
-            <label>Surname</label>
-            <input type="text" class="bordered" name="surname"
-                   value="{{ $errors->any() ? old('surname') : "" }}">
+            <label>Password</label>
+            <input type="password" class="bordered" name="password" value="{{ old('password') }}">
         </div>
-        <div>
-            <label>Patronymic</label>
-            <input type="text" class="bordered" name="patronymic"
-                   value="{{ $errors->any() ? old('patronymic') : "" }}">
-        </div>
-        <div>
-            <label>Phone</label>
-            <input type="text" class="bordered" name="phone"
-                   value="{{ $errors->any() ? old('phone') : "" }}">
-        </div>
-        <div>
-            <label>Email</label>
-            <input type="text" class="bordered" name="email"
-                   value="{{ $errors->any() ? old('email') : "" }}">
-        </div>
-        <div>
-            <label>Age</label>
-            <input type="text" class="bordered" name="age"
-                   value="{{ $errors->any() ? old('age') : "" }}">
-        </div>
-        <div>
-            <label>Gender</label>
-            <select name="gender" class="bordered">
-                <option value="{{ Gender::MALE }}" {{ old('gender') === Gender::MALE ? 'selected' : '' }}>Male</option>
-                <option value="{{ Gender::FEMALE }}" {{ old('gender') === Gender::FEMALE ? 'selected' : '' }}>Female</option>
-            </select>
-        </div>
-        <div>
-            <label>Message</label>
-            <textarea name="message" cols="30" rows="10"
-                      class="bordered">{{ $errors->any() ? old('message') : "" }}</textarea>
-        </div>
-
         <input type="submit">
     </form>
 </body>
