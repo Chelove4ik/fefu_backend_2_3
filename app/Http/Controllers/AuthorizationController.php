@@ -47,7 +47,7 @@ class AuthorizationController extends Controller
                 $request->session()->regenerate();
                 return redirect()->route('profile');
             }
-            return redirect()->route('sign_in')->with('error', 'Invalid login or password');
+            return redirect()->route('login')->with('error', 'Invalid login or password');
         }
         return view('login');
     }
